@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: #000;
+		text-align: center;
+	}
+	canvas {
+		background: #fff;
+	}
+	</style>
+	<script>
+	'use strict';
+	function d2a(n){
+		return n*Math.PI/180;
+	}
+	window.onload = function(){
+		var oC = document.getElementById('c1');
+		var gd = oC.getContext('2d');
+		gd.save();
+		var linear = gd.createLinearGradient(300,100,700,500);
+		linear.addColorStop(0,'red');
+		linear.addColorStop(0.25,'green');
+		linear.addColorStop(0.5,'yellow');
+		linear.addColorStop(0.75,'purple');
+		linear.addColorStop(1,'orange');
+		var i = 0;
+		var timer = setInterval(function(){
+			i++;
+			var str = parseInt(i*100/360)+'%';
+			gd.beginPath();
+			gd.clearRect(0,0,oC.width,oC.height);
+			gd.strokeStyle = linear;
+			gd.lineWidth = 50;
+			gd.arc(500,300,200,d2a(0),d2a(i),false);
+			gd.stroke();
+			gd.font = 'bold 60px 宋体';
+			var w = gd.measureText(str).width;
+			gd.fillText(str,500-w/2,300+20);
+			if(i==360)clearInterval(timer);
+		},16);
+		gd.restore();
+	};
+	</script>
+</head>
+<body>
+	<canvas id="c1" width="1000" height="800"></canvas>
+</body>
+</html>
