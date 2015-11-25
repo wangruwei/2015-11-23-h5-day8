@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: #000;
+		text-align: center;
+	}
+	canvas {
+		background: #fff;
+	}
+	</style>
+	<script>
+	'use strict';
+	function d2a(n){
+		return n*Math.PI/180;
+	}
+	window.onload = function(){
+		var oC = document.getElementById('c1');
+		var gc = oC.getContext('2d');
+		var l=200,t=100,w=300,h=200;
+		gc.save();
+		gc.beginPath();
+		gc.strokeRect(l,t,w,h);
+		gc.stroke();
+		gc.restore();
+		oC.onmousedown = function(ev){
+			var r=l+w,b=t+h;
+			var x = ev.clientX-oC.offsetLeft;
+			var y = ev.clientY-oC.offsetTop;
+			var disX = x - l;
+			var disY = y - t;
+			document.onmousemove = function(ev){
+				gc.clearRect(0,0,oC.width,oC.height);
+				l = ev.clientX-oC.offsetLeft-disX;
+				t = ev.clientY-oC.offsetTop-disY;
+				if(l<0)l=0;
+				if(l>oC.width-w)l=oC.width-w;
+				if(t<0)t=0;
+				if(t>oC.height-h)t=oC.height-h;
+				gc.save();
+				gc.beginPath();
+				gc.strokeRect(l,t,w,h);
+				gc.stroke();
+				gc.restore();
+			};
+			document.onmouseup = function(){
+				document.onmousemove = null;
+				document.onmoueeup = null;
+			};
+			return false;
+		};
+	};
+	</script>
+</head>
+<body>
+	<canvas id="c1" width="1000" height="800"></canvas>
+</body>
+</html>
