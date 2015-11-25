@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: #000;
+		text-align: center;
+	}
+	canvas {
+		background: #fff;
+	}
+	</style>
+	<script>
+	'use strict';
+	function d2a(n){
+		return n*Math.PI/180;
+	}
+	function myRect(gd,json){
+		gd.save();
+		gd.beginPath();
+		gd.translate(json.x+json.w/2,json.y+json.h/2);
+		gd.rotate(d2a(json.r));
+		gd.fillStyle = json.color;
+		gd.fillRect(-json.w/2,-json.h/2,json.w,json.h);
+		gd.restore();
+	}
+	window.onload = function(){
+		var oC = document.getElementById('c1');
+		var gd = oC.getContext('2d');
+		var r1 = 0;
+		var r2 = 0;
+		setInterval(function(){
+			r1 += 3;
+			r2 -= 2;
+			gd.clearRect(0,0,oC.width,oC.height);
+			myRect(gd,{x:200,y:200,w:300,h:200,r:r1,color: 'red'});
+			myRect(gd,{x:300,y:300,w:300,h:200,r:r2,color: 'green'});
+		},16);
+	};
+	</script>
+</head>
+<body>
+	<canvas id="c1" width="1000" height="800"></canvas>
+</body>
+</html>
