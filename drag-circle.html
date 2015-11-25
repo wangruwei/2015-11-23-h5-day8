@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: #000;
+		text-align: center;
+	}
+	canvas {
+		background: #fff;
+	}
+	</style>
+	<script>
+	'use strict';
+	function d2a(n){
+		return n*Math.PI/180;
+	}
+	window.onload = function(){
+		var oC = document.getElementById('c1');
+		var gc = oC.getContext('2d');
+		var cx=300,cy=300,r=100;
+		gc.save();
+		gc.beginPath();
+		gc.arc(cx,cy,r,0,d2a(360),false);
+		gc.stroke();
+		gc.restore();
+		oC.onmousedown = function(ev){
+			var x = ev.clientX-oC.offsetLeft;
+			var y = ev.clientY-oC.offsetTop;
+			var disX = x-cx;
+			var disY = y-cy;
+			var dis = Math.sqrt(disX*disX+disY*disY);
+			if(dis>r)return;
+			document.onmousemove = function(ev){
+				gc.clearRect(0,0,oC.width,oC.height);
+				cx = ev.clientX-oC.offsetLeft-disX;
+				cy = ev.clientY-oC.offsetTop-disY;
+				if(cx<r)cx=r;
+				if(cx>oC.width-r)cx=oC.width-r;
+				if(cy<r)cy=r;
+				if(cy>oC.height-r)cy=oC.height-r;
+				gc.save();
+				gc.beginPath();
+				gc.arc(cx,cy,r,0,d2a(360),false);
+				gc.stroke();
+				gc.restore();
+			};
+			document.onmouseup = function(){
+				document.onmousemove = null;
+				document.onmouseup = null;
+			};
+			return false;
+		};
+	};
+	</script>
+</head>
+<body>
+	<canvas id="c1" width="1000" height="600"></canvas>
+</body>
+</html>
