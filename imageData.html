@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+	body {
+		background: #000;
+		text-align: center;
+	}
+	canvas {
+		background: #fff;
+	}
+	</style>
+	<script>
+	'use strict';
+	window.onload = function(){
+		var oC = document.getElementById('c1');
+		var gd = oC.getContext('2d');
+		var oImg = new Image();
+		oImg.src = '1.jpg';
+		oImg.onload = function(){
+			gd.drawImage(oImg,0,0);
+			var imageData = gd.getImageData(0,0,293,220);
+			for(var x=0;x<293;x++){
+				for(var y=0;y<220;y++){
+					var r = imageData.data[(y*293+x)*4];
+					var g = imageData.data[(y*293+x)*4+1];
+					var b = imageData.data[(y*293+x)*4+2];
+					var result = (r+g+b)/3;
+					imageData.data[(y*293+x)*4] = result;
+					imageData.data[(y*293+x)*4+1] = result;
+					imageData.data[(y*293+x)*4+2] = result;
+				}
+			}
+			gd.putImageData(imageData,300,0);
+		};
+	};
+	</script>
+</head>
+<body>	
+	<canvas id="c1" width="1000" height="800"></canvas>
+</body>
+</html>
